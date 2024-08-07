@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_example/extensions/string_extensions.dart';
 import 'package:flutter_example/network/model/failure/response_failure_model.dart';
@@ -9,25 +8,25 @@ class NetworkProvider implements INetworkProvider {
   final _dio = Dio(BaseOptions(baseUrl: 'https://viacep.com.br/ws'));
 
   @override
-  Future<Either<ResponseSuccessModel, ResponseFailureModel>> get(
+  Future<(ResponseSuccessModel?, ResponseFailureModel?)> get(
       String path) async {
     try {
       final response = await _dio.get(path);
       if (response.statusCode == 200) {
-        return Left(ResponseSuccessModel(body: response.data));
+        return (ResponseSuccessModel(body: response.data), null);
       } else {
-        return Right(ResponseFailureModel(
+        return (null, ResponseFailureModel(
           statusCode: response.statusCode,
           message: 'Error fetching data',
         ));
       }
     } on DioException catch (e) {
-      return Right(ResponseFailureModel(
+      return (null, ResponseFailureModel(
         statusCode: e.response?.statusCode ?? 0,
         message: e.message?.simplify,
       ));
     }catch(e){
-      return Right(ResponseFailureModel(
+      return (null, ResponseFailureModel(
         statusCode: 520,
         message: "".simplify,
       ));

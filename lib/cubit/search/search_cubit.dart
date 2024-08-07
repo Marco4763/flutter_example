@@ -14,9 +14,10 @@ class SearchCubit extends Cubit<SearchState> {
   void searchCep() async {
     emit(SearchInProgressState());
     final response = await cepDao.getCep(cepController.text);
-    response.fold(
-      (l) => emit(SearchSucceedState(model: l)),
-      (r) => emit(SearchFailureState(message: r.message!)),
-    );
+    if(response.$1 != null){
+      emit(SearchSucceedState(model: response.$1!));
+    }else{
+      emit(SearchFailureState(message: response.$2!.message!));
+    }
   }
 }
