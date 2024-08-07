@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_example/extensions/string_extensions.dart';
 import 'package:flutter_example/network/model/failure/response_failure_model.dart';
 import 'package:flutter_example/network/model/success/response_success_model.dart';
 import 'package:flutter_example/network/provider/i_network_provider.dart';
@@ -23,7 +24,12 @@ class NetworkProvider implements INetworkProvider {
     } on DioException catch (e) {
       return Right(ResponseFailureModel(
         statusCode: e.response?.statusCode ?? 0,
-        message: 'Error during the request',
+        message: e.message?.simplify,
+      ));
+    }catch(e){
+      return Right(ResponseFailureModel(
+        statusCode: 520,
+        message: "".simplify,
       ));
     }
   }

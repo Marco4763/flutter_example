@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_example/dao/i_cep_dao.dart';
 import 'package:flutter_example/models/cep_model.dart';
 import 'package:flutter_example/models/i_cep_model.dart';
@@ -11,7 +10,7 @@ class CepDao implements ICepDao{
   final INetworkProvider provider;
   @override
   Future<Either<ICepModel, ResponseFailureModel>> getCep(String cep) async {
-    final request = await provider.get('/$cep/json/');  
+    final request = await provider.get('/$cep/json/');
     return request.fold((l)=>Left(CepModel.fromJson(l.body!)), (r)=>Right(r));
   }
 

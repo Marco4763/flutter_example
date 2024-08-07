@@ -87,6 +87,7 @@ class _SearchPageState extends State<SearchPage> {
                       return Center(
                         child: Text(
                           state.message,
+                          textAlign: TextAlign.center,
                           style: const TextStyle(color: Colors.red),
                         ),
                       );
